@@ -6,17 +6,14 @@ TOKEN = 'abcde12345'
 
 @app.route('/authentication/token', methods=['POST'])
 def authenticate():
-    print(request)
-    values = request.get_json(force = True)
-    print('받은 값', values)
-
-    if 'token' not in values:
+    if 'token' not in request.form:
         return 'Missing values', 400
 
-    token = values['token']
+    token = request.form['token']
+
     if token == TOKEN:
         response = {'message': f'You are authenticated. {token} / {TOKEN}'}
+        return jsonify(response), 201
     else:
         response = {'message': 'Denied'}
-
-    return jsonify(response), 201
+        return jsonify(response), 200

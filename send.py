@@ -24,7 +24,14 @@ smtp.ehlo() # say Hello
 smtp.starttls() # start TLS Encryption
 smtp.login(sender, sender_pw)
 
-msg = MIMEText(TOKEN)
+TEXT_FRONT = """<form action = "http://127.0.0.1:5000/authentication/token" method = "POST">
+<input type="text" name="token" id="token" value = "
+"""
+TEXT_BACK = """"></input><input type="submit" value="인증">
+</form>
+"""
+
+msg = MIMEText(TEXT_FRONT + TOKEN + TEXT_BACK, 'html')
 msg['Subject'] = 'This is an authentication test message'
 msg['From'] = sender
 msg['To'] = receiver
